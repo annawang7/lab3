@@ -60,7 +60,7 @@ point_recd and returning a point _rec as well.
 
 let add_point_recd ({x = x1; y = y1} : point_recd)
                    ({x = x2; y = y2} : point_recd) : point_recd =
-  {x = x1 + x2, y = y1 + y2} ;;
+  {x = (x1 + x2); y = (y1 + y2)} ;;
 
 (* Recall the dot product from Lab 2. The dot product of two points
 (x1, y1) and (x2, y2) is the sum of the products of their x and y
