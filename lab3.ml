@@ -79,8 +79,8 @@ Exercise 4: Write a function dot_product_recd to compute the dot
 product for points encoded as the point_recd type.
 ......................................................................*)
 
-let dot_product_recd (p1 : point_recd) (p2 : point_recd) : int =
-  let {x = x; y = y} in add_point_recd p1 p2 in x + y ;;
+let dot_product_recd ({x = x1; y = y1} : point_recd) ({x = x2; y = y2} : point_recd) : int =
+  x1 * x2 + y1 * y2 ;;
 
 (* Converting between the pair and record representations of points
 
@@ -95,7 +95,7 @@ point_pair to a point_recd.
 ......................................................................*)
 
 let point_pair_to_recd (p : point_pair) : point_recd =
-  let (x, y) = p in {x = x, y = y} ;;
+  let (x, y) = p in {x = x; y = y} ;;
 
 (*......................................................................
 Exercise 6: Write a function point_recd_to_pair that converts a
@@ -103,7 +103,7 @@ point_recd to a point_pair.
 ......................................................................*)
 
 let point_recd_to_pair (p : point_recd) : point_pair =
-  let {x = x, y = y} in (x, y);;
+  let {x = x; y = y} = p in (x, y);;
    
 (*======================================================================
 Part 2: A simple database of records
@@ -167,7 +167,7 @@ For example:
 ......................................................................*)
 
 let ids (enrollments: enrollment list) : int list =
-  List.sort_uniq (List.map (fun x -> x.id) enrollments) ;;
+  List.sort_uniq (fun a b -> 0) (List.map (fun x -> x.id) enrollments) ;;
   
 (*......................................................................
 Exercise 9: Define a function called verify that determines whether all
@@ -180,8 +180,8 @@ For example:
 ......................................................................*)
 
 let verify (enrollments : enrollment list) : bool =
-  let check_id id enrollments = List.sort_uniq (List.map (fun a -> a.name) (transcript enrollments id)) = 0 in
-  List.fold_left (fun a b -> a && (check_id b enrollments)) (ids enrollments) true ;;
+  let check_id id enrollments = List.length (List.sort_uniq (fun a b -> 0) (List.map (fun a -> a.name) (transcript enrollments id))) = 1 in
+  List.fold_left (fun a b -> a && (check_id b enrollments)) true (ids enrollments) ;;
 
 (*======================================================================
 Part 3: Polymorphism
@@ -233,7 +233,7 @@ Now write the function.
 ......................................................................*)
    
 let partition =
-  fun f lst -> List.fold_left (fun (lst1, lst2) b  = if (f b) then (lst1 @ [b], lst2) else (lst1, lst2 @ [b])) lst ([],[]) ;;
+  fun f lst -> (List.fold_left (fun (lst1, lst2) b  -> if (f b) then (lst1 @ [b], lst2) else (lst1, lst2 @ [b]))) ([],[]) lst ;;
 
 (*......................................................................
 Exercise 12: We can think of function application itself as a
