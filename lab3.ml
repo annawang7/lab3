@@ -167,7 +167,7 @@ For example:
 ......................................................................*)
 
 let ids (enrollments: enrollment list) : int list =
-  List.sort_uniq (fun a b -> 0) (List.map (fun x -> x.id) enrollments) ;;
+  List.sort_uniq (compare) (List.map (fun x -> x.id) enrollments) ;;
   
 (*......................................................................
 Exercise 9: Define a function called verify that determines whether all
@@ -180,7 +180,7 @@ For example:
 ......................................................................*)
 
 let verify (enrollments : enrollment list) : bool =
-  let check_id id enrollments = List.length (List.sort_uniq (fun a b -> 0) (List.map (fun a -> a.name) (transcript enrollments id))) = 1 in
+  let check_id id enrollments = List.length (List.sort_uniq (compare) (List.map (fun a -> a.name) (transcript enrollments id))) = 1 in
   List.fold_left (fun a b -> a && (check_id b enrollments)) true (ids enrollments) ;;
 
 (*======================================================================
