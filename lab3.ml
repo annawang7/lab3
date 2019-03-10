@@ -72,7 +72,7 @@ product for points encoded as the point_pair type.
 ......................................................................*)
 
 let dot_product_pair (p1 : point_pair) (p2 : point_pair) : int =
-  let (x1, x2), (y1, y2) = p1, p2 in x1 * x2 + y1 * y2;;
+  let (x1, x2), (y1, y2) = p1, p2 in x1 * y1 + x2 * y2;;
 
 (*......................................................................
 Exercise 4: Write a function dot_product_recd to compute the dot
